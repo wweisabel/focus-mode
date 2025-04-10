@@ -1,0 +1,17 @@
+// src/components/TodayStats.jsx
+import React from 'react';
+
+const TodayStats = ({ sessions }) => {
+  const today = new Date().toDateString();
+  const todayFocusCount = sessions.filter(s => {
+    return new Date(s.time).toDateString() === today && s.type === 'work';
+  }).length;
+
+  return (
+    <div className="today-stats">
+      <h4>🎯 Focused Today: {todayFocusCount} session(s)</h4>
+    </div>
+  );
+};
+
+export default TodayStats;
