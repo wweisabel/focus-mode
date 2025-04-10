@@ -1,0 +1,18 @@
+import React from 'react';
+
+const ExportButton = ({ sessions }) => {
+  const handleExport = () => {
+    const csv = sessions.map(s => `${s.type},${new Date(s.time).toLocaleString()}`).join('\n');
+    const blob = new Blob([`Type,Time\n${csv}`], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'focus_sessions.csv';
+    a.click();
+  };
+
+  return <button onClick={handleExport}>Export CSV</button>;
+};
+
+export default ExportButton;
