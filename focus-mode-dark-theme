@@ -1,0 +1,6 @@
+const [darkMode, setDarkMode] = useState(() => localStorage.getItem('dark') === 'true');
+
+useEffect(() => {
+  document.body.className = darkMode ? 'dark' : '';
+  localStorage.setItem('dark', darkMode);
+}, [darkMode]);
