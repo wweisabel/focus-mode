@@ -1,0 +1,30 @@
+const notify = (title, body) => {
+  if (Notification.permission === 'granted') {
+    new Notification(title, { body });
+  }
+};
+
+useEffect(() => {
+  Notification.requestPermission();
+}, []);
+
+useEffect(() => {
+  if (isRunning) {
+    intervalRef.current = setInterval(() => {
+      setSecondsLeft(prev => {
+        if (prev === 1) {
+          clearInterval(intervalRef.current);
+          const nextMode = mode === 'work' ? 'break' : 'work';
+          const nextTime = nextMode === 'work' ? workMinutes * 60 : breakMinutes * 60;
+          onSessionComplete(mode);
+          notify("Session Complete", `Time for a ${nextMode === 'work' ? 'work' : 'break'} session!`);
+          setMode(nextMode);
+          setSecondsLeft(nextTime);
+          return nextTime;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  }
+  return () => clearInterval(intervalRef.current);
+}, [isRunning, mode]);
